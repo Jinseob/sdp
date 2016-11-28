@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="mainView">
+	<typeAlias alias="bb00100t1VO" type="com.find.someone.model.BB00100T1VO"/>
+	<typeAlias alias="bb00800t1VO" type="com.find.someone.model.BB00800T1VO"/>
+	<typeAlias alias="bb008VO" type="com.find.someone.model.BB008VO"/>
+	
+	<select id="bb001SelectList" resultClass="bb00100t1VO">
+		SELECT * FROM BB00100T1
+	</select>
+	
+	<select id="bb008SelectList" resultClass="bb00800t1VO">
+		SELECT * FROM BB00800T1
+	</select>
+	
+</sqlMap>

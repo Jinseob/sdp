@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+		
+	<!-- dataSource -->
+	<!-- 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@221.132.77.235:dbca" />
+		<property name="username" value="imsi_test" />
+		<property name="password" value="imsi1234" />
+	</bean>
+	 -->
+	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	 	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	 	<property name="url" value="jdbc:mysql://wlswjql.ipdisk.co.kr:9182/muracano" />
+	 	<property name="username" value="muracano" />
+	 	<property name="password" value="mura12" />
+	 </bean>
+	
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:configLocations="classpath:ibatis/sqlMapConfig.xml" />
+		
+	<bean id="sqlMapClientTemplate" class="org.springframework.orm.ibatis.SqlMapClientTemplate"
+		p:sqlMapClient-ref="sqlMapClient" />
+		
+</beans>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb00080">
+	<typeAlias alias="bb00080VO" type="com.find.someone.model.BB00080VO"/>
+	
+	<select id="selectGETUUID" resultClass="String">
+		SELECT LPAD(NEXTVAL('getuuid'), 14, '0') FROM DUAL
+	</select>
+	
+	<insert id="insertGrade" parameterClass="bb00080VO">
+		INSERT INTO BB00080(
+				GRADE_ID
+				,BOARD_ID
+				,GUBUN
+				,GRADE
+				,CRE_ID
+				,CRE_DT
+				,UPT_ID
+				,UPT_DT
+		)VALUES(
+				#grade_id#
+				,#board_id#
+				,#gubun#
+				,#grade#
+				,#cre_id#
+				,now()
+				,#upt_id#
+				,now()
+		)
+	</insert>
+	
+	<update id="updateAvgGrade" parameterClass="bb00080VO">
+        UPDATE bb00310 A
+        SET grade = (SELECT avg(grade) FROM bb00080 WHERE board_id = A.past_id)
+        WHERE past_id = #board_id#
+	</update>
+	
+	<select id="grade_cnt" parameterClass="bb00080VO" resultClass="int">
+		select count(*)
+		from BB00080
+		where board_id = #board_id#
+			and cre_id = #cre_id#
+	</select>
+	
+</sqlMap>

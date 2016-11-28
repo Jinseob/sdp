@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb005">
+	<typeAlias alias="bb00500t1VO" type="com.find.someone.model.BB00500T1VO"/>
+	
+	<insert id="insertCont" parameterClass="bb00500t1VO">
+		INSERT INTO bb00500t1
+		( brand_id
+		,brand_nm
+		,local1
+		,local2
+		,local3
+		,local1_nm
+		,local2_nm
+		,local3_nm
+		,detail_address
+		,tel
+		,job_gubun
+		,introduction
+		,latitudel
+		,longitude
+		,cre_dt
+		   )
+		VALUES
+		(
+		#brand_id#
+		,#brand_nm#
+		,#local1#
+		,#local2#
+		,#local3#
+		,#local1_nm#
+		,#local2_nm#
+		,#local3_nm#
+		,#detail_address#
+		,#tel#
+		,#job_gubun#
+		,#introduction#
+		,#latitudel#
+		,#longitude#
+		,now()
+		)
+		ON DUPLICATE KEY 
+		UPDATE brand_nm = #brand_nm#
+				,upt_dt = now()
+	</insert>
+	
+	<select id="brand_address" resultClass="bb00500t1VO">
+		SELECT brand_id
+			,brand_nm
+			,local1
+			,local2
+			,local3
+			,local1_nm
+			,local2_nm
+			,local3_nm
+			,detail_address
+			,tel
+			,job_gubun
+			,introduction
+			,latitudel
+			,longitude
+			,cre_dt
+			,upt_dt
+		FROM bb00500t1
+		ORDER BY brand_id
+	</select>
+
+</sqlMap>

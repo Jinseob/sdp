@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb008">
+	<typeAlias alias="bb00800t1VO" type="com.find.someone.model.BB00800T1VO"/>
+	<typeAlias alias="bb008VO" type="com.find.someone.model.BB008VO"/>
+	
+	<select id="test" resultClass="bb00800t1VO">
+		SELECT * FROM BB00800T1
+	</select>
+	<select id="selectBoardList" resultClass="bb00800t1VO">
+		SELECT b08.board_id
+		     , b08.parent_id
+		     , b08.title
+		     , b08.content
+		     , b08.user_cnt
+		     , b08.reg_id
+		     , b08.reg_dt
+             , (SELECT COUNT(*) FROM BB00900T3 WHERE B08.BOARD_ID = BOARD_ID) AS tot_cnt
+		  FROM BB00800T1 b08
+		 ORDER BY b08.BOARD_ID
+	</select>
+	<select id="selectBoardDetail" parameterClass="bb008VO" resultClass="bb00800t1VO">
+		SELECT b08.board_id
+		     , b08.parent_id
+		     , b08.title
+		     , b08.content
+		     , b08.user_cnt
+		     , b08.reg_id
+		     , b08.reg_dt
+		     , b08.upt_id
+		     , b08.upt_dt
+		     , (SELECT COUNT(*) FROM BB00900T3 WHERE BOARD_ID = b08.BOARD_ID) AS tot_cnt
+		  FROM BB00800T1 b08
+		 WHERE B08.BOARD_ID = #board_id#
+	</select>
+	<select id="selectGETUUID" resultClass="String">
+		SELECT LPAD(NEXTVAL('getuuid'), 14, '0') FROM DUAL
+	</select>
+	<select id="selectOrderNo" parameterClass="bb008VO" resultClass="String">
+		SELECT IFNULL(MAX(ORDER_NO), 0) + 1 FROM BB00900T3 WHERE BOARD_ID = #board_id#
+	</select>
+	<update id="updateBoard" parameterClass="bb00800t1VO">
+		UPDATE BB00800T1
+		SET		TITLE = #title#
+		 	  , CONTENT = #content#
+		 	  , USER_CNT = #user_cnt#
+		 	  , UPT_ID = #upt_id#
+		 	  , UPT_DT = NOW()
+		WHERE BOARD_ID = #board_id#			 
+	</update>
+	<insert id="insertBoard" parameterClass="bb00800t1VO">
+		INSERT INTO BB00800T1(
+			   BOARD_ID
+			 , PARENT_ID
+			 , TITLE
+			 , CONTENT
+			 , REG_ID
+			 , REG_DT
+		)VALUES(
+			   #board_id#
+			 , #parent_id#
+			 , #title#
+			 , #content#
+			 , #reg_id#
+			 , now()
+		)
+	</insert>
+	<insert id="application" parameterClass="bb008VO">
+		INSERT INTO BB00900T3(
+			   BOARD_ID
+			 , ORDER_NO
+			 , USER_ID
+			 , REG_ID
+			 , REG_DT
+		)VALUES(
+			  #board_id#
+			, #order_no#
+			, #user_id#
+			, #user_id#
+			, now()
+		)
+	</insert>
+</sqlMap>

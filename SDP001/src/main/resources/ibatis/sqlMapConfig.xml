@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+	
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" cacheModelsEnabled="true" lazyLoadingEnabled="true" enhancementEnabled="true"/>
+	
+	<sqlMap resource="ibatis/sqlMaps/BB00100.xml" />
+	<sqlMap resource="ibatis/sqlMaps/BB00310.xml" />
+	<sqlMap resource="ibatis/sqlMaps/BB00500.xml" />
+	<sqlMap resource="ibatis/sqlMaps/BB00800.xml" />
+	<sqlMap resource="ibatis/sqlMaps/BB00900.xml" />
+	<sqlMap resource="ibatis/sqlMaps/Common.xml" />
+	<sqlMap resource="ibatis/sqlMaps/Gwanakgongdan.xml" />
+	<sqlMap resource="ibatis/sqlMaps/MainView.xml" />
+	<sqlMap resource="ibatis/sqlMaps/BB00080.xml" />
+	<sqlMap resource="ibatis/sqlMaps/BB00090.xml" />
+</sqlMapConfig>

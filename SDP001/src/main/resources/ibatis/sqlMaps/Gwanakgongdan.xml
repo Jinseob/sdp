@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="gwanak">
+	<typeAlias alias="bb00200t1VO" type="com.find.someone.model.BB00200T1VO"/>
+	
+	<select id="selectGETUUID" resultClass="String">
+		SELECT LPAD(NEXTVAL('getuuid'), 14, '0') FROM DUAL
+	</select>
+	<insert id="insertbb00200t1" parameterClass="bb00200t1VO">
+		INSERT INTO BB00200T1(
+			   LOCAL_ID
+			 , LOCAL1
+			 , LOCAL2
+			 , LOCAL3
+			 , CONT_ID
+			 , TITLE
+			 , DETAIL_URL
+			 , CONTENT
+			 , METHOD
+			 , WRITE_DT
+			 , PLACE
+			 , DAY
+			 , STATUS
+			 , CRE_DT
+		)VALUES(
+		       #local_id#
+		     , #local1#
+			 , #local2#
+			 , #local3#
+			 , #cont_id#
+			 , #title#
+			 , #detail_url#
+			 , #content#
+			 , #method#
+			 , #write_dt#
+			 , #place#
+			 , #day#
+			 , #status#
+			 , now()
+		)
+	</insert>	
+</sqlMap>

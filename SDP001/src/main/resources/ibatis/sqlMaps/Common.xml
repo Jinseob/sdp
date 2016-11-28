@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="common">
+	<typeAlias alias="commonVO" type="com.find.someone.model.CommonVO"/>
+	
+	<select id="getCodeList" resultClass="commonVO">
+		SELECT DCODE, CODE_NM
+		 FROM BB00999T1
+		WHERE DCODE NOT IN ('000000')
+				 AND DEL_YN = 'N'
+		         AND CODE = #code#
+		ORDER BY DCODE
+	</select>
+</sqlMap>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb00310">
+	<typeAlias alias="bb00310VO" type="com.find.someone.model.BB00310VO"/>
+	
+	<insert id="insertPast" parameterClass="bb00310VO">
+		INSERT INTO bb00310
+	(	 past_id
+		,local1
+		,local2
+		,local3
+		,local1_nm
+		,local2_nm
+		,local3_nm
+		,title
+		,content
+		,place
+		,tel
+		,view_cnt
+		,grade
+		,cre_id
+		,cre_dt
+		,upt_id
+		,upt_dt
+		   )
+		VALUES
+		(
+		 #past_id#
+		,#local1#
+		,#local2#
+		,#local3#
+		,#local1_nm#
+		,#local2_nm#
+		,#local3_nm#
+		,#title#
+		,#content#
+		,#place#
+		,#tel#
+		,#view_cnt#
+		,#grade#
+		,#cre_id#
+		,now()
+		,#upt_id#
+		,now()
+		)
+	</insert>
+	
+	<update id="updatePast" parameterClass="bb00310VO">
+		UPDATE bb00310
+			SET	local1 = #local1#
+				,local2 = #local2#
+				,local3 = #local3#
+				,local1_nm = #local1_nm#
+				,local2_nm= #local2_nm#
+				,local3_nm = #local3_nm#
+				,title = #title#
+				,content = #content#
+				,place = #place#
+				,tel= #tel#
+				,upt_id = #upt_id#
+				,upt_dt = now()
+		WHERE past_id = #past_id#
+	</update>
+	
+	<select id="find_past" parameterClass="bb00310VO" resultClass="bb00310VO">
+		SELECT 
+			 past_id
+			,local1
+			,local2
+			,local3
+			,local1_nm
+			,local2_nm
+			,local3_nm
+			, CASE datediff(now(),cre_dt)  
+		        WHEN '0' THEN '오늘' 
+		        WHEN '1' THEN '1일전' 
+		        WHEN '2' THEN '2일전'
+		    END date_diff
+			,title
+			,(select count(*) from BB00090 	where board_id = A.past_id) as comment_cnt
+			,content
+			,place
+			,tel
+			,view_cnt
+			,grade
+			,cre_dt
+			,upt_dt
+		FROM bb00310 A
+		WHERE 1=1
+		<isNotEqual property="past_id" compareValue="">
+			and past_id = #past_id#
+		</isNotEqual>
+		ORDER BY past_id
+	</select>
+	
+	<update id="view_update" parameterClass="bb00310VO">
+		UPDATE bb00310
+			SET view_cnt = view_cnt+1
+			WHERE  past_id = #past_id#
+	</update>
+
+</sqlMap>

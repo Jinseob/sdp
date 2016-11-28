@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb00090">
+	<typeAlias alias="bb00090VO" type="com.find.someone.model.BB00090VO"/>
+	
+	<select id="selectCommentList" parameterClass="bb00090VO" resultClass="bb00090VO">
+		SELECT B.COMMENT_ID
+	     	 , B.BOARD_ID
+	     	 , B.PARENT_ID
+	     	 , B.GUBUN
+	     	 , B.COMMENTS
+	     	 , B.CRE_ID
+	     	 , B.CRE_DT
+	     	 , A.LEVEL
+	  	  FROM (
+				SELECT START_WITH_CONNECT_BY(CAST(COMMENT_ID AS UNSIGNED)) AS COMMENT_ID
+				     , @LEVEL AS LEVEL
+	  			  FROM (
+	        			SELECT @START_WITH := 0
+	               			 , @ID := @START_WITH
+	               			 , @LEVEL := 0
+	          			  FROM BB00090
+	         		 ) VARS, BB00090
+	 			 WHERE @ID IS NOT NULL
+	 		 ) A
+	 	  LEFT OUTER JOIN BB00090 B
+	        ON CAST(B.COMMENT_ID AS UNSIGNED) = A.COMMENT_ID
+	     WHERE BOARD_ID = #board_id#
+	</select>	
+	
+	<select id="selectGETUUID" resultClass="String">
+		SELECT LPAD(NEXTVAL('getuuid'), 14, '0') FROM DUAL
+	</select>
+	
+	<insert id="insertComment" parameterClass="bb00090VO">
+		INSERT INTO BB00090(
+			   COMMENT_ID
+			 , BOARD_ID
+			 , PARENT_ID
+			 , GUBUN
+			 , COMMENTS
+			 , CRE_ID
+			 , CRE_DT
+		)VALUES(
+		       #comment_id#
+		     , #board_id#
+		     , #parent_id#
+		     , #gubun#
+		     , #comments#
+		     , #cre_id#
+		     , now()
+		)
+	</insert>
+</sqlMap>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb001">
+	<typeAlias alias="bb00200t1VO" type="com.find.someone.model.BB00200T1VO"/>
+	
+	<insert id="insertCont" parameterClass="bb00200t1VO">
+		INSERT INTO bb00200t1
+		( local_id
+		  , local1
+		  , local2
+		  , local3
+		  , cont_id
+		  , title
+		  , content
+		  , detail_url
+		  , list_img
+		  , method
+		  , write_dt
+		  , place
+		  , day
+		  , status
+		  , cre_dt
+		  , edu_period
+		  , edu_time
+		  , edu_persons
+		  , tel
+		  , tuition
+		   )
+		VALUES
+		(LPAD(NEXTVAL('getuuid'), 14, '0')
+		, #local1#
+		, #local2#
+		, #local3#
+		, #cont_id# 
+		, #title#   
+		, #content#
+		, #detail_url#
+		, #list_img#
+		, #method#  
+		, #write_dt#
+		, #place#   
+		, #day#     
+		, #status#
+		, now()
+	    , #edu_period#
+	    , #edu_time#
+	    , #edu_persons#
+	    , #tel#
+	    , #tuition#
+		)
+		ON DUPLICATE KEY 
+		UPDATE local1 = #local1#
+			, local2 = #local2#
+			, local3 = #local3#
+			, cont_id = #cont_id#
+			<isNotEqual property="local2" compareValue="">
+			, upt_dt = now()
+			, edu_time    = #edu_time#   
+			, edu_persons = #edu_persons#
+			, tel         = #tel#        
+			, tuition     = #tuition#    
+			, content     = #content#   
+			</isNotEqual>
+	</insert>
+	
+	<select id="seoul_news" resultClass="bb00200t1VO">
+		SELECT local_id
+				,local1
+				,local2
+				,local3
+				,cont_id
+				,title
+				,content
+				,detail_url
+				,list_img
+				,method
+				,write_dt
+				,place
+				,day
+				,status
+		FROM bb00200t1
+		WHERE local2 = ''
+		ORDER BY write_dt desc
+	</select>
+
+	<select id="gwanak_news" resultClass="bb00200t1VO">
+		SELECT local_id
+				, local1
+				, local2
+				, local3
+				, cont_id
+				, title
+				, detail_url
+				, content
+				, list_img
+				, method
+				, write_dt
+				, place
+				, day
+				, status
+				, cre_dt
+				, upt_dt
+				, edu_period
+				, edu_time
+				, edu_persons
+				, tel
+				, tuition
+		FROM bb00200t1
+		WHERE 1=1 
+				AND local1 = #local1#
+				AND local2 = #local2#
+				<isNotEqual property="local3" compareValue="">
+				AND local3 = #local3#
+				</isNotEqual>
+		ORDER BY write_dt desc
+	</select>
+
+	<select id="getContId" resultClass="bb00200t1VO">
+		SELECT cont_id
+		FROM bb00200t1
+		WHERE 1=1
+				AND local1 = #local1#
+				AND local2 = #local2#
+				AND local3 = #local3#
+	</select>
+</sqlMap>

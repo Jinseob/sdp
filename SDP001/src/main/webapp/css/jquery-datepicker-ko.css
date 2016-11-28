@@ -1,0 +1,15 @@
+@CHARSET "EUC-KR";
+
+/* Holiday color - 2015.06.05 Jindegi */
+.sunday .ui-state-default{
+	color: red;
+	font-weight: bold;
+}
+.saturday .ui-state-default{
+	color: blue;
+	font-weight: bold;
+}
+.holiday .ui-state-default{
+	color: red;
+	font-weight: bold;
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+	
+<sqlMap namespace="bb009">
+	<typeAlias alias="bb00900t1VO" type="com.find.someone.model.LoginVO"/>
+	
+	<insert id="user_insert" parameterClass="bb00900t1VO">
+		INSERT INTO bb00900t1
+		( user_id
+			,user_nm
+			,user_pw
+			,gender
+			,birthday
+			,cellphone1
+			,cellphone2
+			,cellphone3
+			,address1
+			,address2
+			,address3
+			,email1
+			,email2
+			,cre_dt
+		   )
+		VALUES
+		( #user_id#
+			,#user_nm#
+			,#user_pw#
+			,#gender#
+			,#birthday#
+			,#cellphone1#
+			,#cellphone2#
+			,#cellphone3#
+			,#address1#
+			,#address2#
+			,#address3#
+			,#email1#
+			,#email2#
+			,now()
+		)
+	</insert>
+	
+	<select id="userInfo" parameterClass="bb00900t1VO" resultClass="bb00900t1VO">
+		SELECT 
+			 user_id
+			,user_nm
+			,user_pw
+			,gender
+			,birthday
+			,cellphone1
+			,cellphone2
+			,cellphone3
+			,address1
+			,address2
+			,address3
+			,email1
+			,email2
+		FROM bb00900t1
+		WHERE user_id = #user_id#
+			and user_pw = #user_pw#
+	</select>
+	
+	<select id="dup_cnt" parameterClass="bb00900t1VO" resultClass="int">
+		SELECT count(*)
+		FROM bb00900t1
+		WHERE user_id = #user_id#
+	</select>
+	
+	<select id="user_chk" parameterClass="bb00900t1VO" resultClass="int">
+		SELECT count(*)
+		FROM bb00900t1
+		WHERE user_id = #user_id#
+			AND user_pw = #user_pw#
+	</select>
+	
+	<update id="user_update" parameterClass="bb00900t1VO">
+		UPDATE bb00900t1
+		SET user_pw = #user_pw#
+			,user_nm = #user_nm#
+			,cellphone1 = #cellphone1#
+			,cellphone2 = #cellphone2#
+			,cellphone3 = #cellphone3#
+		WHERE user_id = #user_id#
+	</update>
+	
+</sqlMap>
